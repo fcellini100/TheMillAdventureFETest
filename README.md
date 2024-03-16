@@ -1,4 +1,4 @@
-# TheMillAdventureFETest
+# The Mill Adventure - FE Test by Fernando Cellini
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
 
@@ -33,7 +33,7 @@ Follow these steps to install NVM and use it to set the Node.js version for this
 3. **Set Node.js Version with NVM**: Run the following command in the terminal to switch to the required Node.js version for this project.
 
    ```bash
-   nvm use 20.11.1
+   nvm use
    ```
 
 If the specified version of Node.js is not already installed, NVM will prompt you to install it. You can do so by running `nvm install 20.11.1`.
