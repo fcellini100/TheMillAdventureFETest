@@ -1,0 +1,12 @@
+<button
+  (click)="changeTheme()"
+  class="flex items-center justify-center transition-transform hover:scale-125 p-2 rounded-full">
+  <span
+    class="material-icons-outlined text-3xl text-gray-800 dark:text-gray-200">
+    @if (currentMode()) {
+      dark_mode
+    } @else {
+      light_mode
+    }
+  </span>
+</button>
