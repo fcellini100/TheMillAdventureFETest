@@ -6,10 +6,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
@@ -22,6 +18,24 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 
 Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
+## Prerequisites
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+This project requires Node.js version `20.11.1 (LTS)`. It is recommended to use NVM (Node Version Manager) to manage and switch between Node.js versions easily.
+
+### Using NVM to Set Node.js Version
+
+Follow these steps to install NVM and use it to set the Node.js version for this project:
+
+1. **Install NVM**: Follow the instructions to install NVM from the [official NVM GitHub repository](https://github.com/nvm-sh/nvm).
+
+2. **Navigate to This Project's Folder**: Open a terminal and change to the directory where this project is located.
+
+3. **Set Node.js Version with NVM**: Run the following command in the terminal to switch to the required Node.js version for this project.
+
+   ```bash
+   nvm use 20.11.1
+   ```
+
+If the specified version of Node.js is not already installed, NVM will prompt you to install it. You can do so by running `nvm install 20.11.1`.
+
+For more information about NVM and its commands, visit the [NVM GitHub page](https://github.com/nvm-sh/nvm).
