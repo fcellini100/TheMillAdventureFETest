@@ -13,4 +13,19 @@ describe('ThemeToggleService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should initialize in light mode', () => {
+    const isDarkMode = service.isDarkMode()();
+    expect(isDarkMode).toBeFalse();
+  });
+
+  it('should change state after calling toggle', () => {
+    const initialMode = service.isDarkMode()();
+
+    service.toggleDarkMode();
+
+    const currentMode = service.isDarkMode()();
+
+    expect(currentMode).toBe(!initialMode);
+  });
 });
