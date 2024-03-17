@@ -7,10 +7,10 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'categories',
+    path: 'category/:id',
     loadComponent: () =>
-      import('./pages/categories/categories.component').then(
-        component => component.CategoriesComponent
+      import('./pages/category/category.component').then(
+        component => component.CategoryComponent
       ),
   },
   {

@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-categories',
   standalone: true,
   imports: [],
-  templateUrl: './categories.component.html',
+  templateUrl: './category.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoriesComponent {}
+export class CategoryComponent {}

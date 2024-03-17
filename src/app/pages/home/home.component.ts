@@ -1,42 +1,23 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
-
-const QUERY = gql`
-  {
-    getCategoryList {
-      items {
-        _id
-        name
-        products {
-          _id
-          description
-          image
-          name
-          price
-          slug
-        }
-        slug
-      }
-      total
-    }
-  }
-`;
-
+import { CategoryService } from '../../services/category/category.service';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { CategoryList } from '../../models/types';
+import { CategoryCardComponent } from '../../components/category-card/category-card.component';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, CategoryCardComponent, RouterLink],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  constructor(private apollo: Apollo) {}
+  categoryData$: Observable<CategoryList> | undefined;
+
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.apollo
-      .watchQuery({
-        query: QUERY,
-      })
-      .valueChanges.subscribe(result => console.log(result));
+    this.categoryData$ = this.categoryService.getAllCategories();
   }
 }

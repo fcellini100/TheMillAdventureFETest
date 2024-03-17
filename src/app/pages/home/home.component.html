@@ -1,1 +1,25 @@
-<p>home works!</p>
+<div class="container">
+  <div class="container mx-auto p-6">
+    @if (!categoryData$) {
+      <h1 class="mb-8 text-4xl font-semibold text-gray-900 dark:text-gray-100">
+        No categories no show at the moment
+      </h1>
+    } @else {
+      <h1 class="mb-8 text-4xl font-semibold text-gray-900 dark:text-gray-100">
+        Categories ({{ (categoryData$ | async)?.total || 0 }})
+      </h1>
+      <div
+        class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        @for (category of (categoryData$ | async)?.items; track $index) {
+          <a
+            [routerLink]="['/category', category?.slug]"
+            class="block text-inherit no-underline">
+            <app-category-card
+              [name]="category?.name"
+              [productCount]="category?.products?.length" />
+          </a>
+        }
+      </div>
+    }
+  </div>
+</div>
