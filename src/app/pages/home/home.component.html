@@ -8,6 +8,19 @@
       <h1 class="mb-8 text-4xl font-semibold text-gray-900 dark:text-gray-100">
         Categories ({{ (categoryData$ | async)?.total || 0 }})
       </h1>
+
+      <div class="relative mt-1">
+        <div
+          class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+          <span class="material-icons-outlined text-gray-500">search</span>
+        </div>
+        <input
+          type="text"
+          [formControl]="searchControl"
+          placeholder="Search..."
+          class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" />
+      </div>
+
       <div
         class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         @for (category of (categoryData$ | async)?.items; track $index) {
