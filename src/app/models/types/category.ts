@@ -7,11 +7,6 @@ export type Category = {
   products: Product[];
 };
 
-export type CategoryList = {
-  items: Partial<Category[]>;
-  total: number;
-};
-
 export type CategoryListReponse = {
-  getCategoryList: CategoryList;
+  categories: Category[];
 };

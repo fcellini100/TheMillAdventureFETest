@@ -6,7 +6,7 @@
       </h1>
     } @else {
       <h1 class="mb-8 text-4xl font-semibold text-gray-900 dark:text-gray-100">
-        Categories ({{ (categoryData$ | async)?.total || 0 }})
+        Categories ({{ (categoryData$ | async)?.length || 0 }})
       </h1>
 
       <form [formGroup]="form" class="my-4 w-full sm:max-w-md">
@@ -15,7 +15,7 @@
 
       <div
         class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        @for (category of (categoryData$ | async)?.items; track $index) {
+        @for (category of categoryData$ | async; track $index) {
           <a
             [routerLink]="['/category', category?.slug]"
             class="block text-inherit no-underline">

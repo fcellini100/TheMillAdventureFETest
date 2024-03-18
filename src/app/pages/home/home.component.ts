@@ -5,8 +5,8 @@ import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FilterComponent } from '@components/filter/filter.component';
 import { CategoryCardComponent } from '@components/category-card/category-card.component';
-import { CategoryList } from '@models/types';
 import { CategoryService } from '@services/category/category.service';
+import { Category } from '@models/types';
 
 export type CategoryFilter = {
   filter: FormControl<string | null>;
@@ -26,7 +26,7 @@ export type CategoryFilter = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  categoryData$ = new BehaviorSubject<CategoryList | undefined>(undefined);
+  categoryData$ = new BehaviorSubject<Category[] | undefined>(undefined);
 
   form: FormGroup<CategoryFilter> = new FormGroup<CategoryFilter>({
     filter: new FormControl(null),

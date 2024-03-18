@@ -1,39 +1,39 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { CategoryList, CategoryListReponse } from '@models/types';
+import { Category, CategoryListReponse } from '@models/types';
 import { Observable, map } from 'rxjs';
 
-const GET_FILTERED_CATEGORY_LIST = gql`
-  query getCategoryList($name: String) {
-    getCategoryList(where: { name: { match: $name } }) {
-      items {
-        _id
-        name
-        slug
-        products {
-          _id
-        }
+const GET_CATEGORY_LIST = gql`
+  query GetCategoriesBySlug {
+    categories(where: { slug_contains: "" }) {
+      id
+      slug
+      name
+      products {
+        id
       }
-      total
     }
   }
 `;
 
-const GET_CATEGORY_LIST = gql`
+/* const GET_CATEGORY = gql`
   {
-    getCategoryList {
-      items {
+    query getCategory($slug: String) {
+      getCategory(where: { slug: { eq: $slug } }) {
         _id
         name
-        slug
         products {
           _id
+          description
+          image
+          name
+          price
+          slug
         }
+        slug
       }
-      total
-    }
   }
-`;
+`; */
 
 @Injectable({
   providedIn: 'root',
@@ -41,8 +41,8 @@ const GET_CATEGORY_LIST = gql`
 export class CategoryService {
   constructor(private apollo: Apollo) {}
 
-  getAllCategories(name: string | null): Observable<CategoryList> {
-    const query = name ? GET_FILTERED_CATEGORY_LIST : GET_CATEGORY_LIST;
+  getAllCategories(name: string | null): Observable<Category[]> {
+    const query = GET_CATEGORY_LIST;
     const variables = name ? { name } : undefined;
 
     return this.apollo
@@ -50,6 +50,15 @@ export class CategoryService {
         query,
         variables,
       })
-      .valueChanges.pipe(map(result => result.data.getCategoryList));
+      .valueChanges.pipe(map(result => result.data.categories));
   }
+
+  /*   getCategoryBySlug(slug: string): any {
+    return this.apollo
+      .watchQuery<CategoryListReponse>({
+        GET_CATEGORY,
+        { slug },
+      })
+      .valueChanges.pipe(map(result => result.data.getCategoryList));
+  } */
 }
