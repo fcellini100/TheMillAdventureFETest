@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
       });
   }
 
-  loadCategories(filter: string | null = null): void {
+  private loadCategories(filter: string | null = null): void {
     this.loading.set(true);
     this.categoryService.getAllCategories(filter).subscribe(categories => {
       this.categoryData$.next(categories);

@@ -29,7 +29,7 @@
         class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         @for (category of categoryData$ | async; track $index) {
           <a
-            [routerLink]="['/category', category?.slug]"
+            [routerLink]="[category?.slug]"
             class="block text-inherit no-underline">
             <app-category-card
               [name]="category?.name"

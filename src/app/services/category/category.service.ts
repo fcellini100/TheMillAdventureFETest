@@ -51,10 +51,10 @@ export class CategoryService {
     const query = GET_CATEGORY_BY_SLUG;
     const variables = { slug };
     return this.apollo
-      .watchQuery<Category>({
+      .watchQuery<CategoryListReponse>({
         query,
         variables,
       })
-      .valueChanges.pipe(map(result => result.data));
+      .valueChanges.pipe(map(result => result.data.categories[0]));
   }
 }

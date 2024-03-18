@@ -7,14 +7,14 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'category/:id',
+    path: ':category-slug',
     loadComponent: () =>
       import('./pages/category/category.component').then(
         component => component.CategoryComponent
       ),
   },
   {
-    path: 'product/:id',
+    path: ':category-slug/:product-slug',
     loadComponent: () =>
       import('./pages/product/product.component').then(
         component => component.ProductComponent
