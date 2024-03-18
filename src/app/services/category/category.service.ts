@@ -3,10 +3,23 @@ import { Apollo, gql } from 'apollo-angular';
 import { Category, CategoryListReponse } from '@models/types';
 import { Observable, map } from 'rxjs';
 
-const GET_CATEGORY_LIST = gql`
-  query GetCategoriesBySlug {
-    categories(where: { slug_contains: "" }) {
+const GET_CATEGORY_BY_SLUG = gql`
+  query GetCategoriesBySlug($slug: String!) {
+    categories(where: { slug: $slug }) {
       id
+      slug
+      name
+      products {
+        slug
+        name
+      }
+    }
+  }
+`;
+
+const GET_CATEGORY_LIST = gql`
+  query GetCategoryList($name: String = "") {
+    categories(where: { name_contains: $name }) {
       slug
       name
       products {
@@ -15,25 +28,6 @@ const GET_CATEGORY_LIST = gql`
     }
   }
 `;
-
-/* const GET_CATEGORY = gql`
-  {
-    query getCategory($slug: String) {
-      getCategory(where: { slug: { eq: $slug } }) {
-        _id
-        name
-        products {
-          _id
-          description
-          image
-          name
-          price
-          slug
-        }
-        slug
-      }
-  }
-`; */
 
 @Injectable({
   providedIn: 'root',
@@ -53,12 +47,14 @@ export class CategoryService {
       .valueChanges.pipe(map(result => result.data.categories));
   }
 
-  /*   getCategoryBySlug(slug: string): any {
+  getCategoryBySlug(slug: string): Observable<Category> {
+    const query = GET_CATEGORY_BY_SLUG;
+    const variables = { slug };
     return this.apollo
-      .watchQuery<CategoryListReponse>({
-        GET_CATEGORY,
-        { slug },
+      .watchQuery<Category>({
+        query,
+        variables,
       })
-      .valueChanges.pipe(map(result => result.data.getCategoryList));
-  } */
+      .valueChanges.pipe(map(result => result.data));
+  }
 }

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -27,6 +32,7 @@ export type CategoryFilter = {
 })
 export class HomeComponent implements OnInit {
   categoryData$ = new BehaviorSubject<Category[] | undefined>(undefined);
+  loading = signal(false);
 
   form: FormGroup<CategoryFilter> = new FormGroup<CategoryFilter>({
     filter: new FormControl(null),
@@ -35,18 +41,20 @@ export class HomeComponent implements OnInit {
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.loadCategories(null);
+    this.loadCategories();
 
     this.form.controls.filter.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged())
+      .pipe(debounceTime(200), distinctUntilChanged())
       .subscribe(newValue => {
         this.loadCategories(newValue);
       });
   }
 
-  loadCategories(filter: string | null): void {
+  loadCategories(filter: string | null = null): void {
+    this.loading.set(true);
     this.categoryService.getAllCategories(filter).subscribe(categories => {
       this.categoryData$.next(categories);
+      this.loading.set(false);
     });
   }
 }
