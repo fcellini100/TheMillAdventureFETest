@@ -1,11 +1,16 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CategoryService } from '../../services/category/category.service';
 import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { CategoryList } from '../../models/types';
-import { CategoryCardComponent } from '../../components/category-card/category-card.component';
 import { RouterLink } from '@angular/router';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FilterComponent } from '@components/filter/filter.component';
+import { CategoryCardComponent } from '@components/category-card/category-card.component';
+import { CategoryList } from '@models/types';
+import { CategoryService } from '@services/category/category.service';
+
+export type CategoryFilter = {
+  filter: FormControl<string | null>;
+};
 
 @Component({
   selector: 'app-home',
@@ -15,33 +20,33 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
     CategoryCardComponent,
     RouterLink,
     ReactiveFormsModule,
+    FilterComponent,
   ],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  private categoryDataSubject = new BehaviorSubject<CategoryList | undefined>(
-    undefined
-  );
-  categoryData$ = this.categoryDataSubject.asObservable();
+  categoryData$ = new BehaviorSubject<CategoryList | undefined>(undefined);
 
-  searchControl = new FormControl<string | null>(null);
+  form: FormGroup<CategoryFilter> = new FormGroup<CategoryFilter>({
+    filter: new FormControl(null),
+  });
 
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
-    this.loadCategories();
+    this.loadCategories(null);
 
-    this.searchControl.valueChanges
+    this.form.controls.filter.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged())
       .subscribe(newValue => {
-        this.loadCategories(newValue ?? undefined);
+        this.loadCategories(newValue);
       });
   }
 
-  loadCategories(filter?: string): void {
+  loadCategories(filter: string | null): void {
     this.categoryService.getAllCategories(filter).subscribe(categories => {
-      this.categoryDataSubject.next(categories);
+      this.categoryData$.next(categories);
     });
   }
 }

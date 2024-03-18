@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { CategoryList, CategoryListReponse } from '../../models/types';
+import { CategoryList, CategoryListReponse } from '@models/types';
 import { Observable, map } from 'rxjs';
 
 const GET_FILTERED_CATEGORY_LIST = gql`
@@ -41,7 +41,7 @@ const GET_CATEGORY_LIST = gql`
 export class CategoryService {
   constructor(private apollo: Apollo) {}
 
-  getAllCategories(name?: string): Observable<CategoryList> {
+  getAllCategories(name: string | null): Observable<CategoryList> {
     const query = name ? GET_FILTERED_CATEGORY_LIST : GET_CATEGORY_LIST;
     const variables = name ? { name } : undefined;
 

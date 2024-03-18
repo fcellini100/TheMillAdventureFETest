@@ -20,7 +20,15 @@
     "module": "ES2022",
     "useDefineForClassFields": false,
     "strictPropertyInitialization": false,
-    "lib": ["ES2022", "dom"]
+    "lib": ["ES2022", "dom"],
+    "baseUrl": "src",
+    "paths": {
+      "@services/*": ["app/services/*"],
+      "@components/*": ["app/components/*"],
+      "@pages/*": ["app/pages/*"],
+      "@models/*": ["app/models/*"],
+      "@environments/*": ["environments/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
