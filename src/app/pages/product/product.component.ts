@@ -4,12 +4,14 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProductCardComponent } from '@components/product-card/product-card.component';
 import { ProductResponse } from '@models/types';
+import { CountdownService } from '@services/countdown/countdown.service';
 import { ProductService } from '@services/product/product.service';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -20,11 +22,14 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 })
 export class ProductComponent implements OnInit, OnDestroy {
   productData$ = new BehaviorSubject<ProductResponse | undefined>(undefined);
+  countdown = signal<string>('00:00:00');
+  private countdownSub$: Subscription;
   private unsubscribe$ = new Subject<void>();
 
   constructor(
     private productService: ProductService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private countdownService: CountdownService
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +41,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
         if (catSlug && slug) {
           this.loadProduct(catSlug, slug);
+          this.setupCountdown();
         }
       });
   }
@@ -43,11 +49,20 @@ export class ProductComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+
+    this.countdownSub$.unsubscribe();
   }
 
-  loadProduct(catSlug: string, slug: string): void {
+  private loadProduct(catSlug: string, slug: string): void {
     this.productService
       .getProductBySlug(catSlug, slug)
       .subscribe(response => this.productData$.next(response));
+  }
+
+  private setupCountdown(): void {
+    this.countdownSub$ = this.countdownService.countdownToMidnight().subscribe({
+      next: countdown => this.countdown.set(countdown),
+      complete: () => this.countdown.set('Order today for delivery tomorrow!'),
+    });
   }
 }

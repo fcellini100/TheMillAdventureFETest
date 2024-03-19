@@ -24,7 +24,7 @@
             {{ productData.product.name }}
           </h2>
 
-          <div class="mb-4 flex">
+          <div class="mb-4">
             <div class="mr-4">
               <span class="font-bold text-gray-700 dark:text-gray-300"
                 >Price:
@@ -33,12 +33,22 @@
                 productData.product.price | currency
               }}</span>
             </div>
-            <div>
-              <span class="font-bold text-gray-700 dark:text-gray-300"
-                >Availability:</span
+          </div>
+
+          <div class="mb-4">
+            <p class="font-bold text-gray-700 dark:text-gray-300">
+              🚚
+              <span class="underline decoration-sky-500 dark:decoration-sky-300"
+                >Fast Track Your Order!</span
               >
-              <span class="text-gray-600 dark:text-gray-300">In Stock</span>
-            </div>
+              Get your product by tomorrow.
+            </p>
+            <p class="text-gray-600 dark:text-gray-300">
+              Hurry! Order in the next <strong>{{ countdown() }}</strong> and
+              <span class="font-bold text-green-600 dark:text-green-400"
+                >secure your next-day delivery</span
+              >.
+            </p>
           </div>
 
           <div>

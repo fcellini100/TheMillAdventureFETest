@@ -1,12 +1,12 @@
-<div class="container">
+<div class="container" *ngIf="categoryData$ | async as categoryData">
   <div class="container mx-auto p-6">
-    @if ((categoryData$ | async) === undefined) {
+    @if (categoryData === undefined) {
       <h1 class="mb-8 text-4xl font-semibold text-gray-900 dark:text-gray-100">
         No categories no show at the moment
       </h1>
     } @else {
       <h1 class="mb-8 text-4xl font-semibold text-gray-900 dark:text-gray-100">
-        Categories ({{ (categoryData$ | async)?.length || 0 }})
+        Categories ({{ categoryData.length || 0 }})
       </h1>
 
       <form
@@ -27,7 +27,7 @@
 
       <div
         class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        @for (category of categoryData$ | async; track $index) {
+        @for (category of categoryData; track $index) {
           <a
             [routerLink]="[category?.slug]"
             class="block text-inherit no-underline">
@@ -37,6 +37,13 @@
           </a>
         }
       </div>
+
+      @if (categoryData.length === 0) {
+        <p class="text-lg font-medium text-gray-900 dark:text-gray-100">
+          We couldn't find any categories matching your criteria. Please adjust
+          your search parameters.
+        </p>
+      }
     }
   </div>
 </div>
