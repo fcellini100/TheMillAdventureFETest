@@ -4,15 +4,16 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CategoryCardComponent } from '@components/category-card/category-card.component';
 import { FilterComponent } from '@components/filter/filter.component';
 import { ProductCardComponent } from '@components/product-card/product-card.component';
-import { Category } from '@models/types';
+import { Category, FilterForm } from '@models/types';
 import { CategoryService } from '@services/category/category.service';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Subject, skip, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -30,7 +31,14 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 })
 export class CategoryComponent implements OnInit, OnDestroy {
   category$ = new BehaviorSubject<Category | undefined>(undefined);
+  categorySlug: string;
+  loading = signal(false);
+
   private unsubscribe$ = new Subject<void>();
+
+  form: FormGroup<FilterForm> = new FormGroup<FilterForm>({
+    filter: new FormControl(null),
+  });
 
   constructor(
     private categoryService: CategoryService,
@@ -43,7 +51,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .subscribe(paramMap => {
         const slug = paramMap.get('category-slug');
         if (slug) {
+          this.categorySlug = slug;
           this.loadCategory(slug);
+          this.setUpFilter();
         }
       });
   }
@@ -54,8 +64,30 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   private loadCategory(slug: string): void {
+    this.loading.set(true);
+    this.categoryService.getCategoryBySlug(slug).subscribe(category => {
+      this.category$.next(category);
+      this.loading.set(false);
+    });
+  }
+
+  private filterProducts(name: string | null = null): void {
+    this.loading.set(true);
     this.categoryService
-      .getCategoryBySlug(slug)
-      .subscribe(category => this.category$.next(category));
+      .getCategoryProductsByName(this.categorySlug, name)
+      .subscribe(category => {
+        this.category$.next(category);
+        this.loading.set(false);
+      });
+  }
+
+  private setUpFilter(): void {
+    if (this.categorySlug) {
+      this.form.controls.filter.valueChanges
+        .pipe(skip(1))
+        .subscribe(newValue => {
+          this.filterProducts(newValue);
+        });
+    }
   }
 }

@@ -4,18 +4,14 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { BehaviorSubject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FilterComponent } from '@components/filter/filter.component';
 import { CategoryCardComponent } from '@components/category-card/category-card.component';
 import { CategoryService } from '@services/category/category.service';
-import { Category } from '@models/types';
-
-export type CategoryFilter = {
-  filter: FormControl<string | null>;
-};
+import { Category, FilterForm } from '@models/types';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +30,7 @@ export class HomeComponent implements OnInit {
   categoryData$ = new BehaviorSubject<Category[] | undefined>(undefined);
   loading = signal(false);
 
-  form: FormGroup<CategoryFilter> = new FormGroup<CategoryFilter>({
+  form: FormGroup<FilterForm> = new FormGroup<FilterForm>({
     filter: new FormControl(null),
   });
 
@@ -50,7 +46,7 @@ export class HomeComponent implements OnInit {
 
   private loadCategories(filter: string | null = null): void {
     this.loading.set(true);
-    this.categoryService.getAllCategories(filter).subscribe(categories => {
+    this.categoryService.getCategoriesByName(filter).subscribe(categories => {
       this.categoryData$.next(categories);
       this.loading.set(false);
     });
