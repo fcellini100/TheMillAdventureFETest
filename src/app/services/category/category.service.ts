@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import { Category, CategoryListReponse } from '@models/types';
+import { Category, CategoryListReponse, CategoryReponse } from '@models/types';
 import { Observable, map } from 'rxjs';
 import { GET_CATEGORY_BY_SLUG, GET_CATEGORY_LIST } from '@queries/categories';
 
@@ -26,10 +26,10 @@ export class CategoryService {
     const query = GET_CATEGORY_BY_SLUG;
     const variables = { slug };
     return this.apollo
-      .watchQuery<CategoryListReponse>({
+      .watchQuery<CategoryReponse>({
         query,
         variables,
       })
-      .valueChanges.pipe(map(result => result.data.categories[0]));
+      .valueChanges.pipe(map(result => result.data.category));
   }
 }

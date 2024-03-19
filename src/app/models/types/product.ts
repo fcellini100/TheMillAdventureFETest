@@ -1,3 +1,5 @@
+import { Category } from './category';
+
 export type Product = {
   slug: string;
   name: string;
@@ -8,4 +10,9 @@ export type Product = {
 
 export type ProductImage = {
   url: string;
+};
+
+export type ProductResponse = {
+  category: Partial<Category>;
+  product: Product;
 };

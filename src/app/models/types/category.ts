@@ -4,7 +4,11 @@ export type Category = {
   _id: string;
   slug: string;
   name: string;
-  products: Product[];
+  products: Partial<Product[]>;
+};
+
+export type CategoryReponse = {
+  category: Category;
 };
 
 export type CategoryListReponse = {

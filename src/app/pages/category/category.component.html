@@ -13,11 +13,11 @@
       class="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       @for (product of (category$ | async)?.products; track $index) {
         <a
-          [routerLink]="[product.slug]"
+          [routerLink]="[product!.slug]"
           class="block text-inherit no-underline">
           <app-product-card
-            [name]="product.name"
-            [image]="product.image[0].url">
+            [name]="product!.name"
+            [image]="product!.image[0].url">
           </app-product-card>
         </a>
       }

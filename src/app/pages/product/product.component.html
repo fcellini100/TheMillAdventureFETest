@@ -1,1 +1,83 @@
-<p>product works!</p>
+<div *ngIf="productData$ | async as productData">
+  <div class="py-8">
+    <div class="px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl font-semibold text-gray-900 dark:text-gray-100">
+        <a
+          routerLink=".."
+          class="mb-8 inline-flex items-center text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-300 dark:hover:text-white">
+          <span class="material-icons-outlined mr-2">arrow_back</span>
+          Back to {{ productData.category.name }}
+        </a>
+      </h1>
+
+      <div class="-mx-4 flex flex-col md:flex-row">
+        <div class="px-4 md:flex-1">
+          <div class="mb-4 rounded-lg bg-gray-300 dark:bg-gray-700">
+            <img
+              class="h-full w-full rounded-lg bg-slate-50"
+              [src]="productData.product.image[0].url"
+              [alt]="productData.product.name" />
+          </div>
+        </div>
+        <div class="px-4 md:flex-1">
+          <h2 class="mb-2 text-2xl font-bold text-gray-800 dark:text-white">
+            {{ productData.product.name }}
+          </h2>
+
+          <div class="mb-4 flex">
+            <div class="mr-4">
+              <span class="font-bold text-gray-700 dark:text-gray-300"
+                >Price:
+              </span>
+              <span class="text-gray-600 dark:text-gray-300">{{
+                productData.product.price | currency
+              }}</span>
+            </div>
+            <div>
+              <span class="font-bold text-gray-700 dark:text-gray-300"
+                >Availability:</span
+              >
+              <span class="text-gray-600 dark:text-gray-300">In Stock</span>
+            </div>
+          </div>
+
+          <div>
+            <span class="font-bold text-gray-700 dark:text-gray-300"
+              >Product Description:</span
+            >
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">
+              {{ productData.product.description }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-12 h-0.5 border-t-0 bg-gray-900 dark:bg-gray-100" />
+
+      <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">
+        Other products on the same category:
+      </h3>
+      <div
+        *ngIf="productData.category.products?.length"
+        class="my-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        @for (product of productData.category.products; track $index) {
+          <a
+            [routerLink]="['../', product!.slug]"
+            class="block text-inherit no-underline">
+            <app-product-card
+              [name]="product!.name"
+              [image]="product!.image[0].url">
+            </app-product-card>
+          </a>
+        }
+      </div>
+
+      @if (productData.category.products?.length === 0) {
+        <p class="text-lg font-medium text-gray-900 dark:text-gray-100">
+          Currently, there are no more products available in this category. We
+          apologize for the inconvenience.
+        </p>
+      }
+    </div>
+  </div>
+</div>
