@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CategoryCardComponent } from '@components/category-card/category-card.component';
 import { FilterComponent } from '@components/filter/filter.component';
+import { ProductCardComponent } from '@components/product-card/product-card.component';
 import { Category } from '@models/types';
 import { CategoryService } from '@services/category/category.service';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
@@ -22,6 +23,7 @@ import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
     RouterLink,
     ReactiveFormsModule,
     FilterComponent,
+    ProductCardComponent,
   ],
   templateUrl: './category.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

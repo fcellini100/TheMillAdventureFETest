@@ -43,11 +43,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.loadCategories();
 
-    this.form.controls.filter.valueChanges
-      .pipe(debounceTime(200), distinctUntilChanged())
-      .subscribe(newValue => {
-        this.loadCategories(newValue);
-      });
+    this.form.controls.filter.valueChanges.subscribe(newValue => {
+      this.loadCategories(newValue);
+    });
   }
 
   private loadCategories(filter: string | null = null): void {
