@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CategoryComponent } from './category.component';
+import { ApolloTestingModule } from 'apollo-angular/testing';
+import { RouterModule } from '@angular/router';
 
 describe('CategoryComponent', () => {
   let component: CategoryComponent;
@@ -8,7 +10,11 @@ describe('CategoryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CategoryComponent],
+      imports: [
+        CategoryComponent,
+        ApolloTestingModule,
+        RouterModule.forRoot([]),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CategoryComponent);

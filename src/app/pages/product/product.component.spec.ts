@@ -1,6 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductComponent } from './product.component';
+import { ApolloTestingModule } from 'apollo-angular/testing';
+import { RouterModule } from '@angular/router';
+import { of } from 'rxjs';
+import { CountdownService } from '@services/countdown/countdown.service';
+
+const mockCountdownService = {
+  countdownToMidnight: jasmine
+    .createSpy('countdownToMidnight')
+    .and.returnValue(of('15h 30m 25s')),
+};
 
 describe('ProductComponent', () => {
   let component: ProductComponent;
@@ -8,10 +18,16 @@ describe('ProductComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductComponent]
-    })
-    .compileComponents();
-    
+      imports: [
+        ProductComponent,
+        ApolloTestingModule,
+        RouterModule.forRoot([]),
+      ],
+      providers: [
+        { provide: CountdownService, useValue: mockCountdownService },
+      ],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(ProductComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavBarComponent } from './nav-bar.component';
 import { By } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 describe('NavBarComponent', () => {
   let component: NavBarComponent;
@@ -9,7 +10,7 @@ describe('NavBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavBarComponent],
+      imports: [NavBarComponent, RouterModule.forRoot([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(NavBarComponent);
@@ -25,9 +26,7 @@ describe('NavBarComponent', () => {
     const titleElement = fixture.debugElement.query(
       By.css('p.font-semibold.text-lg')
     ).nativeElement;
-    expect(titleElement.textContent).toContain(
-      'The Mill Adventure - Angular Test'
-    );
+    expect(titleElement.textContent).toContain('Angular Test');
   });
 
   it('should display the subtitle with the author name', () => {

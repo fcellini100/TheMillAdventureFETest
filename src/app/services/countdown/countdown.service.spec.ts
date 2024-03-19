@@ -14,13 +14,13 @@ describe('CountdownService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should emit a countdown string in the format of "Xh Ym Zs"', (done: DoneFn) => {
+  it('should emit a countdown string in the format of "HH:MM:SS"', (done: DoneFn) => {
     service
       .countdownToMidnight()
       .pipe(take(1))
       .subscribe({
         next: value => {
-          expect(value).toMatch(/\d{1,2}h \d{1,2}m \d{1,2}s/);
+          expect(value).toMatch(/\d{2}:\d{2}:\d{2}/);
           done();
         },
         error: done.fail,

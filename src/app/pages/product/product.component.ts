@@ -50,7 +50,9 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
 
-    this.countdownSub$.unsubscribe();
+    if (this.countdownSub$) {
+      this.countdownSub$.unsubscribe();
+    }
   }
 
   private loadProduct(catSlug: string, slug: string): void {
