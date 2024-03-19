@@ -42,5 +42,12 @@
         </a>
       }
     </div>
+
+    @if (category.products.length === 0) {
+      <p class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        We couldn't find any products matching your criteria. Please adjust your
+        search parameters.
+      </p>
+    }
   </div>
 </div>

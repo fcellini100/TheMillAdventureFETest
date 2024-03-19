@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,7 +17,7 @@ import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-filter',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './filter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
@@ -40,7 +41,7 @@ export class FilterComponent
     this.searchControl.valueChanges
       .pipe(
         takeUntil(this.unsubscribe$),
-        debounceTime(500),
+        debounceTime(250),
         distinctUntilChanged()
       )
       .subscribe(value => {
